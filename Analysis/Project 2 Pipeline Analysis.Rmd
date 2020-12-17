@@ -19,7 +19,7 @@ library(randomForest)
 # Load datasets from Data subfolder
 my_gapminder <- read.csv( "../Data/my_gapminder.csv")
 my_penguins <- read.csv("../Data/my_penguins.csv")
-
+new_penguins <- na.omit(my_penguins)
 ```
 
 ```{r}
