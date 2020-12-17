@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' data("my_penguins")
-#' new_penguins <- na.omit(my_penguins)
+#' new_penguins <- na.omit(my_penguins) 
 #' my_rf_cv(new_penguins, 5)
 #' my_rf_cv(new_penguins, 10)
 #'
