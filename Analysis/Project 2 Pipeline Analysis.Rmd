@@ -16,13 +16,13 @@ library(randomForest)
 
 ```{r}
 
-my_gapminder <- read.csv( "E:/Downloads/STAT302/Projects/Project2Pipeline/Data/my_gapminder.csv")
-my_penguins <- read.csv("E:/Downloads/STAT302/Projects/Project2Pipeline/Data/my_penguins.csv")
+my_gapminder <- read.csv( "../Data/my_gapminder.csv")
+my_penguins <- read.csv("../Data/my_penguins.csv")
 
 ```
 
 ```{r}
-rf_cv <- source("E:/Downloads/STAT302/Projects/Project2Pipeline/Code/my_rf_cv.R")
+rf_cv <- source("../Code/my_rf_cv.R")
 my_rf_cv <- rf_cv$value
 ```
 
@@ -58,7 +58,7 @@ ggplot(data = as.data.frame(cbind(as.numeric(CVs), final_folds)),
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
         panel.spacing.x = unit(0.75, "cm")) 
-ggsave("E:/Downloads/STAT302/Projects/Project2Pipeline/Output/Figures/rfboxplot.pdf")
+ggsave("../Output/Figures/rfboxplot.pdf")
 
 ```
 
@@ -72,7 +72,7 @@ base <- as.data.frame(cbind(average_cv, sd_cv))
 rownames(base) <- c("10 folds", "5 folds", "2 folds")
 base
 saveRDS(base, "E:/Downloads/STAT302/Projects/Project2Pipeline/Output/Results/CvTable.RDS")
-write_csv(base, "E:/Downloads/STAT302/Projects/Project2Pipeline/Output/Results/CvTable.csv")
+write_csv(base, "../Output/Results/CvTable.csv")
 ```
 
 ```
