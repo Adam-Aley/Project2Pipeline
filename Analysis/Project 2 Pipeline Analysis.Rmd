@@ -11,17 +11,19 @@ library(tidyverse)
 library(kableExtra)
 library(readr)
 library(dplyr)
+library(knitr)
 library(randomForest)
 ```
 
 ```{r}
-
+# Load datasets from Data subfolder
 my_gapminder <- read.csv( "../Data/my_gapminder.csv")
 my_penguins <- read.csv("../Data/my_penguins.csv")
 
 ```
 
 ```{r}
+# Load code from Code subfolder
 rf_cv <- source("../Code/my_rf_cv.R")
 my_rf_cv <- rf_cv$value
 ```
@@ -58,6 +60,7 @@ ggplot(data = as.data.frame(cbind(as.numeric(CVs), final_folds)),
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
         panel.spacing.x = unit(0.75, "cm")) 
+# Save Boxplot under Output/Figures
 ggsave("../Output/Figures/rfboxplot.pdf")
 
 ```
@@ -70,8 +73,8 @@ sd_cv <- c(sd(CVs[1:30]), sd(CVs[31:60]), sd(CVs[61:90]))
 # Produces table of means and sds for various folds
 base <- as.data.frame(cbind(average_cv, sd_cv))
 rownames(base) <- c("10 folds", "5 folds", "2 folds")
-base
-saveRDS(base, "E:/Downloads/STAT302/Projects/Project2Pipeline/Output/Results/CvTable.RDS")
+# Save table summary as .rds and .csv under Output/Results
+saveRDS(base, "../Output/Results/CvTable.RDS")
 write_csv(base, "../Output/Results/CvTable.csv")
 ```
 
