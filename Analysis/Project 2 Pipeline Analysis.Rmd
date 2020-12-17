@@ -1,0 +1,61 @@
+---
+title: "Project 2 Pipeline"
+author: "Adam"
+date: "12/16/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(kableExtra)
+library(readr)
+library(dplyr)
+library(randomForest)
+```
+
+```{r}
+
+my_gapminder <- read.csv( "E:/Downloads/STAT302/Projects/Project2Pipeline/Data/my_gapminder.csv")
+my_penguins <- read.csv("E:/Downloads/STAT302/Projects/Project2Pipeline/Data/my_penguins.csv")
+
+```
+
+```{r}
+rf_cv <- source("E:/Downloads/STAT302/Projects/Project2Pipeline/Code/my_rf_cv.R")
+new_rf_cv <- rf_cv$value
+```
+
+```{r}
+# Initialize three length 30 vectors
+CV_2 <- 1:30
+CV_5 <- 1:30
+CV_10<- 1:30
+# Fill vectors with random cv errors of various random forests of same folds
+for (k in 1:30) {
+  CV_2[k] <- my_rf_cv(new_penguins, 2)$cv_err
+  CV_5[k] <- my_rf_cv(new_penguins, 5)$cv_err
+  CV_10[k] <- my_rf_cv(new_penguins, 10)$cv_err 
+}
+```
+
+```{r}
+# Groups CVs
+CVs <- cbind(CV_2, CV_5, CV_10)
+# Split CVs by number of folds
+folds <- rep(c("2", "5", "10"), each = 30)
+final_folds <- as.factor(folds)
+df <- data.frame(CVs, final_folds)
+# Create boxplot combining each fold group
+ggplot(data = as.data.frame(cbind(as.numeric(CVs), final_folds)), 
+       aes(x = final_folds, y = CVs, group = final_folds)) +
+  # Generates plot
+  geom_boxplot() +
+  # Labeling
+  labs(title = "Cross-Validation Errors of Multiple Random Forests", 
+       x = "Total Folds (2, 10, 5)", y = "Cross-Validation Error") +
+  # Themes to outline boxplot
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        panel.spacing.x = unit(0.75, "cm")) 
+```
